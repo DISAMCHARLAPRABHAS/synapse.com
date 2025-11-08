@@ -5,7 +5,6 @@ import Solution from './components/Solution';
 import Features from './components/Features';
 import HowItWorks from './components/HowItWorks';
 import DetailedHowItWorks from './components/DetailedHowItWorks';
-import Testimonials from './components/Testimonials';
 import CTA from './components/CTA';
 import Footer from './components/Footer';
 
@@ -19,7 +18,7 @@ function App() {
       <Features />
       <HowItWorks />
       <DetailedHowItWorks />
-      <Testimonials />
+  
       <CTA />
       <Footer />
     </div>
