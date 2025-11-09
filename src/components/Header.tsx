@@ -1,14 +1,11 @@
-function Header() {
+interface HeaderProps {
+  onGetStartedClick: () => void;
+}
+
+function Header({ onGetStartedClick }: HeaderProps) {
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
     e.preventDefault();
     const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  const handleGetStarted = () => {
-    const element = document.getElementById('problem');
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
@@ -58,7 +55,7 @@ function Header() {
           </div>
 
           <button
-            onClick={handleGetStarted}
+            onClick={onGetStartedClick}
             className="bg-[#40E0D0] text-white px-6 py-2.5 rounded-full font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all duration-200 cursor-pointer"
           >
             Get Started
