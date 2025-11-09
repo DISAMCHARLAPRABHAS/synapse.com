@@ -11,6 +11,14 @@ function Header({ onGetStartedClick }: HeaderProps) {
     }
   };
 
+  // Function to scroll to AI Demo section
+  const onLiveDemoClick = () => {
+    const element = document.getElementById('ai-demo');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <header className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm shadow-sm z-50">
       <nav className="container mx-auto px-6 py-4">
@@ -53,6 +61,7 @@ function Header({ onGetStartedClick }: HeaderProps) {
               Testimonials
             </a>
           </div>
+
           <div className="flex items-center space-x-4">
             {/* Live Demo Button */}
             <button
@@ -62,12 +71,14 @@ function Header({ onGetStartedClick }: HeaderProps) {
               Live Demo
             </button>
 
-          <button
-            onClick={onGetStartedClick}
-            className="bg-[#40E0D0] text-white px-6 py-2.5 rounded-full font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all duration-200 cursor-pointer"
-          >
-            Get Started
-          </button>
+            {/* Get Started Button */}
+            <button
+              onClick={onGetStartedClick}
+              className="bg-[#40E0D0] text-white px-6 py-2.5 rounded-full font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all duration-200 cursor-pointer"
+            >
+              Get Started
+            </button>
+          </div>
         </div>
       </nav>
     </header>
