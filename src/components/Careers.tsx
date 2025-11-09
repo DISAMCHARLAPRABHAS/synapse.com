@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { ArrowRight, X, Loader2, CheckCircle, AlertTriangle } from 'lucide-react';
-import { supabase } from '../supabaseClient';
+import { useState, ChangeEvent } from 'react';
+import { ArrowRight, X, Loader2, CheckCircle, AlertTriangle, Upload } from 'lucide-react';
+import { supabase } from '@/supabaseClient';
 
 // --- Job Data ---
 interface Job {
@@ -14,66 +14,48 @@ interface Job {
 
 const openPositions: Job[] = [
   { 
-    title: 'Senior Frontend Engineer (React)', 
+    title: 'General Internship', 
     location: 'Remote / Bangalore',
-    type: 'Full-time',
-    description: 'We are seeking a passionate Senior Frontend Engineer to build and shape the user-facing side of SynapseHub. You will be responsible for turning our vision into a fast, intuitive, and beautiful product.',
+    type: 'Internship',
+    description: 'We are looking for motivated individuals to join our team as interns. This is a general internship program where you will get to work on various aspects of our product, from engineering to marketing.',
     responsibilities: [
-      'Develop and maintain user-facing features using React.js and TypeScript.',
-      'Collaborate with designers and product managers to translate mockups into responsive, high-quality code.',
-      'Optimize components for maximum performance across a vast array of web-capable devices.',
-      'Write clean, scalable, and well-tested code.'
+      'Assist teams with day-to-day tasks.',
+      'Participate in team meetings and brainstorming sessions.',
+      'Conduct research and gather data to support product development.',
+      'Learn from mentors and apply new skills to real-world projects.'
     ],
     qualifications: [
-      '5+ years of experience in frontend development.',
-      'Deep expertise in React, TypeScript, and Tailwind CSS.',
-      'Strong understanding of modern web technologies (HTML5, CSS3, ES6+).',
-      'Experience with performance optimization and browser-side debugging.'
+      'Currently enrolled in a college or university, or a recent graduate.',
+      'Strong desire to learn and a passion for technology.',
+      'Good communication and teamwork skills.',
+      'Self-motivated and able to work independently.'
     ]
   },
   { 
-    title: 'Lead AI/ML Engineer (NLP)', 
-    location: 'Bangalore',
-    type: 'Full-time',
-    description: 'As our Lead AI/ML Engineer, you will be at the heart of our core product. You will lead the development of the natural language processing and recommendation engines that power the SynapseHub assistant.',
-    responsibilities: [
-      'Design, build, and deploy NLP/NLU models for our conversational AI.',
-      'Develop recommendation algorithms to personalize user experience.',
-      'Collaborate with backend engineers to integrate models into our production environment.',
-      'Stay up-to-date with the latest advancements in AI and Large Language Models.'
-    ],
-    qualifications: [
-      '5+ years of experience in AI/ML with a focus on NLP.',
-      'Proven experience with Python and ML frameworks (TensorFlow, PyTorch).',
-      'Experience with transformer models (e.g., BERT, GPT) and fine-tuning.',
-      'Strong background in data structures, algorithms, and system design.'
-    ]
-  },
-  { 
-    title: 'Product Manager - Conversational AI', 
+    title: 'Unpaid Internship (Learning Focus)', 
     location: 'Remote',
-    type: 'Full-time',
-    description: 'We are looking for a Product Manager to own the roadmap for our AI assistant. You will define the user experience, prioritize features, and work closely with engineering and design to build a world-class product.',
+    type: 'Unpaid Internship',
+    description: 'This is an unpaid, remote-first learning internship for individuals who want to gain experience in the tech industry. You will be paired with a mentor and work on a project tailored to your learning goals.',
     responsibilities: [
-      'Define the product vision, strategy, and roadmap for the SynapseHub AI assistant.',
-      'Gather and prioritize product and customer requirements.',
-      'Work with design to create intuitive conversational flows and user interfaces.',
-      'Analyze product metrics to measure success and identify areas for improvement.'
+      'Complete a dedicated project under the guidance of a mentor.',
+      'Attend learning sessions and workshops.',
+      'Contribute to open-source components of our platform.',
+      'Shadow team members to understand different roles in the company.'
     ],
     qualifications: [
-      '3+ years of Product Management experience, preferably in a B2C tech company.',
-      'Experience with AI or machine learning products is a huge plus.',
-      'Excellent analytical and problem-solving skills.',
-      'Strong communication and leadership abilities.'
+      'Must be able to receive academic credit or be seeking experience.',
+      'A clear learning objective and a passion for technology.',
+      'Strong commitment and availability to learn.',
+      'This is a learning position and is unpaid, as permitted by law.'
     ]
-  },
+  }
 ];
 
 // --- Application Form Component ---
 interface ApplicationFormProps {
   jobTitle: string;
-  onClose: () => void;    // <-- FIX HERE
-  onSuccess: () => void;  // <-- FIX HERE (This was line 76)
+  onClose: () => void;
+  onSuccess: () => void;
 }
 
 function ApplicationForm({ jobTitle, onClose, onSuccess }: ApplicationFormProps) {
@@ -81,20 +63,53 @@ function ApplicationForm({ jobTitle, onClose, onSuccess }: ApplicationFormProps)
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [coverLetter, setCoverLetter] = useState('');
+  const [resumeFile, setResumeFile] = useState<File | null>(null); // State for the file
   const [status, setStatus] = useState<'idle' | 'loading' | 'error'>('idle');
   const [error, setError] = useState('');
 
-  // NOTE: File upload to Supabase Storage is complex.
-  // For now, we will just submit the text fields and a placeholder resume.
-  // A real implementation would use storage.from('resumes').upload(...)
-  
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      if (file.size > 5242880) { // 5MB
+        setError('File is too large. Please upload a PDF under 5MB.');
+        setResumeFile(null);
+      } else if (file.type !== 'application/pdf') {
+        setError('Invalid file type. Please upload a PDF.');
+        setResumeFile(null);
+      } else {
+        setError('');
+        setResumeFile(file);
+      }
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (status === 'loading') return;
+
+    if (!resumeFile) {
+      setError('Please upload your resume to apply.');
+      return;
+    }
+
     setStatus('loading');
     setError('');
 
     try {
-      const { error: supabaseError } = await supabase
+      // 1. Upload the file to Supabase Storage
+      const fileExt = resumeFile.name.split('.').pop();
+      const filePath = `${email}/${Date.now()}.${fileExt}`;
+      
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from('resumes') // The bucket name
+        .upload(filePath, resumeFile);
+
+      if (uploadError) {
+        throw new Error(`Storage Error: ${uploadError.message}`);
+      }
+
+      // 2. If upload is successful, insert application data into the database
+      const { error: insertError } = await supabase
         .from('job_applications')
         .insert({ 
           job_title: jobTitle, 
@@ -102,15 +117,17 @@ function ApplicationForm({ jobTitle, onClose, onSuccess }: ApplicationFormProps)
           email, 
           phone, 
           cover_letter: coverLetter,
-          resume_url: 'placeholder.pdf' // Placeholder for file upload
+          resume_url: uploadData.path // Save the path to the file
         });
       
-      if (supabaseError) {
-        throw supabaseError;
+      if (insertError) {
+        throw new Error(`Database Error: ${insertError.message}`);
       }
       
+      // 3. Success
       setStatus('idle');
       onSuccess(); // Show the success message in the parent
+
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred.';
       setError(`Failed to submit: ${errorMessage}`);
@@ -147,17 +164,32 @@ function ApplicationForm({ jobTitle, onClose, onSuccess }: ApplicationFormProps)
             <input type="tel" id="phone" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#40E0D0]" />
           </div>
           <div>
-            <label htmlFor="coverLetter" className="block text-sm font-medium text-gray-700 mb-1">Cover Letter (Optional)</label>
+            <label htmlFor="coverLetter" className="block text-sm font-medium text-gray-700 mb-1">Tell us why you're interested (Optional)</label>
             <textarea id="coverLetter" rows={4} value={coverLetter} onChange={(e) => setCoverLetter(e.target.value)} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#40E0D0]" />
           </div>
+          
+          {/* --- NEW FILE INPUT --- */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Resume/CV</label>
-            <p className="text-sm p-4 bg-gray-50 rounded-lg border border-gray-200">
-              Note: Resume upload is not implemented in this demo. Submitting will send a placeholder.
-            </p>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Resume/CV (PDF only, max 5MB)</label>
+            <label 
+              htmlFor="resume-upload" 
+              className="w-full flex items-center justify-center px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50"
+            >
+              <Upload className="w-5 h-5 text-gray-500 mr-2" />
+              <span className="text-sm text-gray-600">
+                {resumeFile ? resumeFile.name : 'Click to upload your PDF'}
+              </span>
+            </label>
+            <input 
+              type="file" 
+              id="resume-upload" 
+              className="hidden" 
+              accept="application/pdf"
+              onChange={handleFileChange}
+            />
           </div>
           
-          {status === 'error' && (
+          {error && (
             <div className="flex items-center space-x-2 text-red-600">
               <AlertTriangle className="w-5 h-5" />
               <span className="text-sm">{error}</span>
@@ -183,8 +215,8 @@ function ApplicationForm({ jobTitle, onClose, onSuccess }: ApplicationFormProps)
 // --- Job Description Modal Component ---
 interface JobModalProps {
   job: Job;
-  onClose: () => void;  // <-- FIX HERE
-  onApply: () => void;  // <-- FIX HERE
+  onClose: () => void;
+  onApply: () => void;
 }
 
 function JobModal({ job, onClose, onApply }: JobModalProps) {
@@ -208,12 +240,12 @@ function JobModal({ job, onClose, onApply }: JobModalProps) {
         <div className="p-6 space-y-6 max-h-[60vh] overflow-y-auto">
           <p className="text-gray-700 leading-relaxed">{job.description}</p>
           
-          <h4 className="text-xl font-semibold text-gray-900">Responsibilities</h4>
+          <h4 className="text-xl font-semibold text-gray-900">What You'll Do</h4>
           <ul className="list-disc list-inside space-y-2 text-gray-700">
             {job.responsibilities.map((item, i) => <li key={i}>{item}</li>)}
           </ul>
           
-          <h4 className="text-xl font-semibold text-gray-900">Qualifications</h4>
+          <h4 className="text-xl font-semibold text-gray-900">What We're Looking For</h4>
           <ul className="list-disc list-inside space-y-2 text-gray-700">
             {job.qualifications.map((item, i) => <li key={i}>{item}</li>)}
           </ul>
@@ -270,7 +302,7 @@ function Careers() {
             Join Our Team
           </h1>
           <p className="text-xl text-gray-600 leading-relaxed max-w-3xl mx-auto">
-            We are building the future of conversational commerce and AI-powered decision making. If you are passionate about technology and innovation, we'd love to have you.
+            We're building the future of conversational commerce. If you're passionate about learning and innovation, we'd love to hear from you.
           </p>
         </div>
 
@@ -284,7 +316,7 @@ function Careers() {
 
         <div className="max-w-3xl mx-auto">
           <h2 className="text-3xl font-bold text-[#1A202C] mb-8">
-            Open Positions
+            Open Internship Positions
           </h2>
           <div className="bg-white rounded-2xl shadow-md border border-gray-100 divide-y divide-gray-100">
             {openPositions.map((job, index) => (
@@ -302,18 +334,6 @@ function Careers() {
                 </div>
               </button>
             ))}
-          </div>
-
-          <div className="mt-12 text-center bg-white p-8 rounded-2xl shadow-md border border-gray-100">
-            <h3 className="text-2xl font-bold text-[#1A202C] mb-4">
-              Don't see your role?
-            </h3>
-            <p className="text-gray-600 mb-6">
-              We are always looking for talented people. Send us your resume and tell us why you'd be a great fit.
-            </p>
-            <a href="mailto:careers@synapsehub.com" className="inline-block bg-[#40E0D0] text-white px-8 py-3 rounded-full font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all duration-200">
-              Email Your Resume
-            </a>
           </div>
         </div>
       </div>
