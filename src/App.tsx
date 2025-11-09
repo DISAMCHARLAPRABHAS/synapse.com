@@ -12,7 +12,7 @@ import AIDemo from './components/AIDemo';
 import CTA from './components/CTA';
 import Footer from './components/Footer';
 import WaitlistModal from './components/WaitlistModal';
-import Chatbot from './components/Chatbot'; // <-- New Import
+import Chatbot from './components/Chatbot';
 
 function App() {
   const [isWaitlistOpen, setIsWaitlistOpen] = useState(false);
@@ -20,7 +20,7 @@ function App() {
   return (
     <div className="min-h-screen bg-white">
       <Header onGetStartedClick={() => setIsWaitlistOpen(true)} />
-      <Hero />
+      <Hero onGetStartedClick={() => setIsWaitlistOpen(true)} /> {/* <-- PASSED PROP HERE */}
       <Problem />
       <Solution />
       <Features />
@@ -32,7 +32,7 @@ function App() {
       <CTA />
       <Footer />
       <WaitlistModal isOpen={isWaitlistOpen} onClose={() => setIsWaitlistOpen(false)} />
-      <Chatbot /> {/* <-- New Component Added */}
+      <Chatbot />
     </div>
   );
 }
