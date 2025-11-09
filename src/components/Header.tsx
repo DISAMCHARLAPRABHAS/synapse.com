@@ -7,17 +7,25 @@ interface HeaderProps {
 function Header({ onGetStartedClick, onNavigate, currentPage }: HeaderProps) {
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
     e.preventDefault();
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+    if (currentPage === 'home') {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      onNavigate('home');
     }
   };
 
   // Function to scroll to AI Demo section
   const onLiveDemoClick = () => {
-    const element = document.getElementById('ai-demo');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+    if (currentPage === 'home') {
+      const element = document.getElementById('ai-demo');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      onNavigate('home');
     }
   };
 
@@ -70,15 +78,23 @@ function Header({ onGetStartedClick, onNavigate, currentPage }: HeaderProps) {
 
           {/* Buttons - Adjust spacing and padding for mobile */}
           <div className="flex items-center space-x-2 sm:space-x-4">
-            {/* Live Demo Button (Hidden on non-home pages) */}
+            {/* Live Demo Button (Home only, hidden on mobile) */}
             {currentPage === 'home' && (
               <button
                 onClick={onLiveDemoClick}
-                className="bg-white text-[#40E0D0] px-3 py-2 sm:px-5 sm:py-2.5 rounded-full font-semibold border-2 border-[#40E0D0] shadow-sm hover:bg-[#40E0D0] hover:text-white hover:scale-105 transition-all duration-200 cursor-pointer text-sm sm:text-base"
+                className="hidden sm:block bg-white text-[#40E0D0] px-3 py-2 sm:px-5 sm:py-2.5 rounded-full font-semibold border-2 border-[#40E0D0] shadow-sm hover:bg-[#40E0D0] hover:text-white hover:scale-105 transition-all duration-200 cursor-pointer text-sm sm:text-base"
               >
                 Live Demo
               </button>
             )}
+
+            {/* NEW Fundraising Button */}
+            <button
+              onClick={() => onNavigate('fundraising')}
+              className="bg-[#FF6B6B] text-white px-3 py-2 sm:px-5 sm:py-2.5 rounded-full font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all duration-200 cursor-pointer text-sm sm:text-base"
+            >
+              Fundraising
+            </button>
 
             {/* Get Started Button - Smaller text/padding on mobile */}
             <button
