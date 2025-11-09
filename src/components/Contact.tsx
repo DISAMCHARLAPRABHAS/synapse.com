@@ -136,7 +136,7 @@ function Contact() {
                 <MapPin className="w-6 h-6 text-[#40E0D0] flex-shrink-0 mt-1" />
                 <div>
                   <h4 className="font-semibold text-lg">Our Office</h4>
-                  <p className="text-gray-600">[Placeholder] 123 Synapse St, Tech Park, Bangalore, India</p>
+                  <p className="text-gray-600">[Placeholder] 123 Synapse St, Tech Park, India</p>
                 </div>
               </div>
               <div className="flex items-start space-x-4">
