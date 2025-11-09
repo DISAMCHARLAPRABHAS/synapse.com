@@ -13,24 +13,64 @@ import CTA from './components/CTA';
 import Footer from './components/Footer';
 import WaitlistModal from './components/WaitlistModal';
 import Chatbot from './components/Chatbot';
+// Import new pages
+import Terms from './components/Terms';
+import Privacy from './components/Privacy';
+import Contact from './components/Contact';
+import Careers from './components/Careers';
+
+type Page = 'home' | 'terms' | 'privacy' | 'contact' | 'careers';
 
 function App() {
   const [isWaitlistOpen, setIsWaitlistOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState<Page>('home');
+
+  const handleNavigate = (page: Page) => {
+    setCurrentPage(page);
+    window.scrollTo(0, 0); // Scroll to top on page change
+  };
+
+  const renderPage = () => {
+    switch (currentPage) {
+      case 'terms':
+        return <Terms />;
+      case 'privacy':
+        return <Privacy />;
+      case 'contact':
+        return <Contact />;
+      case 'careers':
+        return <Careers />;
+      case 'home':
+      default:
+        return (
+          <>
+            <Hero onGetStartedClick={() => setIsWaitlistOpen(true)} />
+            <Problem />
+            <Solution />
+            <Features />
+            <HowItWorks />
+            <DetailedHowItWorks />
+            <Testimonials />
+            <Infographic />
+            <AIDemo />
+            <CTA />
+          </>
+        );
+    }
+  };
 
   return (
     <div className="min-h-screen bg-white">
-      <Header onGetStartedClick={() => setIsWaitlistOpen(true)} />
-      <Hero onGetStartedClick={() => setIsWaitlistOpen(true)} /> {/* <-- PASSED PROP HERE */}
-      <Problem />
-      <Solution />
-      <Features />
-      <HowItWorks />
-      <DetailedHowItWorks />
-      <Testimonials />
-      <Infographic />
-      <AIDemo />
-      <CTA />
-      <Footer />
+      <Header
+        onGetStartedClick={() => setIsWaitlistOpen(true)}
+        onNavigate={handleNavigate}
+        currentPage={currentPage}
+      />
+      
+      {/* Render the current page */}
+      {renderPage()}
+
+      <Footer onNavigate={handleNavigate} />
       <WaitlistModal isOpen={isWaitlistOpen} onClose={() => setIsWaitlistOpen(false)} />
       <Chatbot />
     </div>
