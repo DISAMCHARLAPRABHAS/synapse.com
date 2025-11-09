@@ -26,6 +26,36 @@ function AIDemo() {
     scrollToBottom();
   }, [messages]);
 
+  // 🧠 --- HTML SANITIZER + FIXER ---
+  const sanitizeAndFixHTML = (html: string) => {
+    if (!html) return '';
+
+    // Fix common Gemini HTML issues
+    let fixed = html
+      .replace(/backgroundcolor/gi, 'background-color')
+      .replace(/bordercollapse/gi, 'border-collapse')
+      .replace(/bankspecific/gi, 'bank-specific')
+      .replace(/style="[^"]*"/gi, match => {
+        // Normalize inline CSS syntax
+        return match.replace(/\s*([a-z-]+)\s*:\s*/gi, (_, p1) => `${p1.trim()}: `);
+      });
+
+    // Wrap tables for responsive scroll
+    fixed = fixed.replace(
+      /<table/gi,
+      `<div class='overflow-x-auto my-3'><table class='w-full text-sm border border-gray-300 border-collapse'>`
+    );
+    fixed = fixed.replace(/<\/table>/gi, '</table></div>');
+
+    // Add Tailwind styling for cells
+    fixed = fixed
+      .replace(/<th/gi, "<th class='border border-gray-300 px-3 py-2 bg-gray-100 text-left font-semibold'")
+      .replace(/<td/gi, "<td class='border border-gray-300 px-3 py-2 text-gray-800'")
+      .replace(/<tr>/gi, "<tr class='odd:bg-white even:bg-gray-50'>");
+
+    return fixed;
+  };
+
   const handleSendMessage = async () => {
     if (!input.trim()) return;
 
@@ -47,7 +77,22 @@ function AIDemo() {
         return;
       }
 
-      const systemPrompt = `You are an expert conversational shopping and booking assistant. Your goal is to find the best products or travel options for the user. When asked for recommendations, provide a concise summary, mention key features and pros/cons, and base your answer on real-time web search. Do not make up products, prices, or specifications. Be friendly, conversational, and helpful.`;
+      const systemPrompt = `
+You are an expert conversational shopping and booking assistant. Your task is to recommend the best products or travel options for the user based on real-time Google Search data.
+
+Follow these strict output and style rules:
+- Do not use stars (*), markdown, emojis, or bullet points.
+- Output all product or item results in a clean HTML table format only.
+- Use clear column headers with the following structure:
+  Product Name | Price | Offers | Verdict | Card Offers | Specifications | Reviews | Review Summary | Sentiment Analysis
+- Always include as many of these fields as are available. If data for a column is unavailable, leave it blank.
+- For single-product results, still use a single-row HTML table.
+- The “Sentiment Analysis” column should summarize customer sentiment as Positive, Neutral, or Negative with a short reason.
+- Keep text concise, factual, and helpful.
+- Base all information strictly on real web data. Do not invent prices, offers, or specifications.
+- Maintain a conversational tone before or after the table, but do not wrap the table in markdown or code blocks.
+- If the user asks for general help, respond conversationally; if they request recommendations, respond using the HTML table format described above.
+`;
 
       const payload = {
         contents: [{ parts: [{ text: userMessage }] }],
@@ -109,10 +154,10 @@ function AIDemo() {
             Try the AI Agent Demo
           </h2>
           <p className="text-xl text-gray-600">
-            This is a live demo powered by the Gemini API with Google Search grounding. Ask it to find a product or book a trip, just like the solution describes.
+            This demo is powered by the Gemini API with Google Search grounding. Ask it to find a product or book a trip.
           </p>
           <p className="text-lg text-gray-500 mt-2">
-            Example: "Find me the best laptop for coding under $1000"
+            Example: "Find me the best laptop for coding under ₹30,000"
           </p>
         </div>
 
@@ -139,7 +184,17 @@ function AIDemo() {
                       : 'bg-white border border-gray-200 text-gray-900 rounded-bl-none'
                   }`}
                 >
-                  <p className="text-sm md:text-base leading-relaxed whitespace-pre-wrap">{msg.text}</p>
+                  {msg.sender === 'ai' ? (
+                    <div
+                      className="text-sm md:text-base leading-relaxed whitespace-pre-wrap"
+                      dangerouslySetInnerHTML={{
+                        __html: sanitizeAndFixHTML(msg.text)
+                      }}
+                    />
+                  ) : (
+                    <p className="text-sm md:text-base leading-relaxed whitespace-pre-wrap">{msg.text}</p>
+                  )}
+
                   {msg.sender === 'ai' && msg.sources && msg.sources.length > 0 && (
                     <div className="mt-3 pt-3 border-t border-gray-200">
                       <p className="text-xs font-semibold text-gray-600 mb-2">Sources:</p>
@@ -162,6 +217,7 @@ function AIDemo() {
                 </div>
               </div>
             ))}
+
             {isLoading && (
               <div className="flex justify-start">
                 <div className="bg-white border border-gray-200 text-gray-900 rounded-lg rounded-bl-none px-4 py-3">
@@ -181,9 +237,7 @@ function AIDemo() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => {
-                if (e.key === 'Enter' && !isLoading) {
-                  handleSendMessage();
-                }
+                if (e.key === 'Enter' && !isLoading) handleSendMessage();
               }}
               placeholder="Type your request here..."
               className="flex-1 px-6 py-4 outline-none text-gray-900"
@@ -198,8 +252,6 @@ function AIDemo() {
             </button>
           </div>
         </div>
-
-        
       </div>
     </section>
   );

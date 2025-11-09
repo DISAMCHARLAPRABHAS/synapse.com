@@ -15,7 +15,7 @@ function Solution() {
     {
       icon: <DollarSign className="w-10 h-10 text-[#40E0D0]" />,
       title: "Transparent Pricing",
-      description: "No hidden fees or commissions — just honest, real-time deals."
+      description: "No hidden fees or commissions — just honest, real-time deals with one subscription model."
     },
     {
       icon: <TrendingUp className="w-10 h-10 text-[#40E0D0]" />,

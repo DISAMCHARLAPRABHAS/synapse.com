@@ -144,7 +144,7 @@ function Infographic() {
       <div className="container mx-auto max-w-6xl">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-[#45B7D1] mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold text-[#40E0D0] mb-2 drop-shadow-[1px_1px_0_black]">
             The Frictionless Future of Commerce
           </h2>
           <p className="text-xl text-gray-600 leading-relaxed max-w-3xl mx-auto">

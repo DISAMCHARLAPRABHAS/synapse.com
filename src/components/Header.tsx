@@ -1,8 +1,9 @@
 interface HeaderProps {
   onGetStartedClick: () => void;
+  onLiveDemoClick: () => void; // new prop for Live Demo
 }
 
-function Header({ onGetStartedClick }: HeaderProps) {
+function Header({ onGetStartedClick, onLiveDemoClick }: HeaderProps) {
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
     e.preventDefault();
     const element = document.getElementById(sectionId);
@@ -54,12 +55,23 @@ function Header({ onGetStartedClick }: HeaderProps) {
             </a>
           </div>
 
-          <button
-            onClick={onGetStartedClick}
-            className="bg-[#40E0D0] text-white px-6 py-2.5 rounded-full font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all duration-200 cursor-pointer"
-          >
-            Get Started
-          </button>
+          <div className="flex items-center space-x-4">
+            {/* Live Demo Button */}
+            <button
+              onClick={onLiveDemoClick}
+              className="bg-white text-[#40E0D0] px-5 py-2.5 rounded-full font-semibold border-2 border-[#40E0D0] shadow-sm hover:bg-[#40E0D0] hover:text-white hover:scale-105 transition-all duration-200 cursor-pointer"
+            >
+              Live Demo
+            </button>
+
+            {/* Get Started Button */}
+            <button
+              onClick={onGetStartedClick}
+              className="bg-[#40E0D0] text-white px-6 py-2.5 rounded-full font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all duration-200 cursor-pointer"
+            >
+              Get Started
+            </button>
+          </div>
         </div>
       </nav>
     </header>

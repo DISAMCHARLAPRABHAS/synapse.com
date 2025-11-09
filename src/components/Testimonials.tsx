@@ -49,7 +49,8 @@ function Testimonials() {
                 "{testimonial.text}"
               </p>
               <div className="flex items-center">
-                <div className="w-12 h-12 bg-gradient-to-br from-[#40E0D0] to-[#FF6B6B] rounded-full flex items-center justify-center text-white font-bold text-lg">
+                {/* Changed avatar background to solid #40E0D0 */}
+                <div className="w-12 h-12 bg-[#40E0D0] rounded-full flex items-center justify-center text-white font-bold text-lg">
                   {testimonial.name.charAt(0)}
                 </div>
                 <div className="ml-4">
