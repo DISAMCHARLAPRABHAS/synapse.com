@@ -18,8 +18,9 @@ import Terms from './components/Terms';
 import Privacy from './components/Privacy';
 import Contact from './components/Contact';
 import Careers from './components/Careers';
+import Fundraising from './components/Fundraising'; // <-- 1. IMPORT
 
-type Page = 'home' | 'terms' | 'privacy' | 'contact' | 'careers';
+type Page = 'home' | 'terms' | 'privacy' | 'contact' | 'careers' | 'fundraising'; // <-- 2. ADD TO TYPE
 
 function App() {
   const [isWaitlistOpen, setIsWaitlistOpen] = useState(false);
@@ -40,6 +41,8 @@ function App() {
         return <Contact />;
       case 'careers':
         return <Careers />;
+      case 'fundraising': // <-- 3. ADD CASE
+        return <Fundraising />;
       case 'home':
       default:
         return (
