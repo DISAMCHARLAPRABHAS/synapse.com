@@ -1,6 +1,10 @@
 import { Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
 
-function Footer() {
+interface FooterProps {
+  onNavigate: (page: string) => void;
+}
+
+function Footer({ onNavigate }: FooterProps) {
   return (
     <footer className="bg-white py-12 px-6 border-t border-gray-200">
       <div className="container mx-auto max-w-6xl">
@@ -10,10 +14,19 @@ function Footer() {
             <span className="text-2xl font-bold text-[#1A202C]">SynapseHub</span>
           </div>
 
-          <div className="flex space-x-6 mb-6 md:mb-0">
-            <a href="#terms" className="text-gray-600 hover:text-[#40E0D0] transition-colors duration-200">Terms</a>
-            <a href="#privacy" className="text-gray-600 hover:text-[#40E0D0] transition-colors duration-200">Privacy</a>
-            <a href="#contact" className="text-gray-600 hover:text-[#40E0D0] transition-colors duration-200">Contact</a>
+          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 mb-6 md:mb-0">
+            <button onClick={() => onNavigate('terms')} className="text-gray-600 hover:text-[#40E0D0] transition-colors duration-200">
+              Terms
+            </button>
+            <button onClick={() => onNavigate('privacy')} className="text-gray-600 hover:text-[#40E0D0] transition-colors duration-200">
+              Privacy
+            </button>
+            <button onClick={() => onNavigate('contact')} className="text-gray-600 hover:text-[#40E0D0] transition-colors duration-200">
+              Contact
+            </button>
+            <button onClick={() => onNavigate('careers')} className="text-gray-600 hover:text-[#40E0D0] transition-colors duration-200">
+              Careers
+            </button>
           </div>
 
           <div className="flex space-x-4">
