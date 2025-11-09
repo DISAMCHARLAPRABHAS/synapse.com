@@ -3,6 +3,7 @@ import Chart from 'chart.js/auto';
 
 function Infographic() {
   useEffect(() => {
+    // ... (chart logic remains the same)
     const initCharts = () => {
       const wrapLabels = (label: string | string[]) => {
         if (Array.isArray(label)) return label;
@@ -147,7 +148,7 @@ function Infographic() {
           <h2 className="text-4xl md:text-5xl font-bold text-[#40E0D0] mb-2 drop-shadow-[1px_1px_0_black]">
             The Frictionless Future of Commerce
           </h2>
-          <p className="text-xl text-gray-600 leading-relaxed max-w-3xl mx-auto">
+          <p className="text-lg md:text-xl text-gray-600 leading-relaxed max-w-3xl mx-auto">
             From fragmented searching to unified conversation: How AI is solving the core problem of online booking and shopping.
           </p>
         </div>
@@ -159,6 +160,7 @@ function Infographic() {
             Today's users face a frustrating, multi-step process. They discover a need on one platform, research reviews on another, compare prices on a third, and finally, attempt to purchase on a fourth. This fragmentation leads to decision fatigue and high abandonment.
           </p>
 
+          {/* Use grid-cols-1 on mobile, sm:grid-cols-3 on small screens and up */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12">
             <div className="bg-white p-8 rounded-xl shadow-md text-center">
               <div className="text-6xl font-bold text-[#FF6B6B] mb-3">70%</div>
@@ -177,25 +179,27 @@ function Infographic() {
             </div>
           </div>
 
-          <div className="bg-white p-8 rounded-xl shadow-md">
+          <div className="bg-white p-6 sm:p-8 rounded-xl shadow-md">
             <h4 className="text-2xl font-semibold text-center mb-6">Today's Painful Process</h4>
+            {/* flex-wrap is key here, along with md:flex-row and flex-col for mobile */}
             <div className="flex flex-col md:flex-row items-center justify-center gap-3 md:gap-2 flex-wrap">
-              <div className="border-2 border-[#FF6B6B] bg-white p-4 rounded-lg text-center font-semibold max-w-xs">
+              <div className="border-2 border-[#FF6B6B] bg-white p-4 rounded-lg text-center font-semibold w-full max-w-xs">
                 Need: "I need a new laptop"
               </div>
-              <div className="text-3xl font-bold text-[#FF6B6B]">→</div>
-              <div className="border-2 border-[#FF6B6B] bg-white p-4 rounded-lg text-center font-semibold max-w-xs">
+              {/* Hide arrows on mobile for a cleaner stack */}
+              <div className="text-3xl font-bold text-[#FF6B6B] hidden md:block">→</div>
+              <div className="border-2 border-[#FF6B6B] bg-white p-4 rounded-lg text-center font-semibold w-full max-w-xs">
                 Step 1: Research blogs & reviews
               </div>
-              <div className="text-3xl font-bold text-[#FF6B6B]">→</div>
-              <div className="border-2 border-[#FF6B6B] bg-white p-4 rounded-lg text-center font-semibold max-w-xs">
+              <div className="text-3xl font-bold text-[#FF6B6B] hidden md:block">→</div>
+              <div className="border-2 border-[#FF6B6B] bg-white p-4 rounded-lg text-center font-semibold w-full max-w-xs">
                 Step 2: Compare 3+ vendor sites
               </div>
-              <div className="text-3xl font-bold text-[#FF6B6B]">→</div>
-              <div className="border-2 border-[#FF6B6B] bg-white p-4 rounded-lg text-center font-semibold max-w-xs">
+              <div className="text-3xl font-bold text-[#FF6B6B] hidden md:block">→</div>
+              <div className="border-2 border-[#FF6B6B] bg-white p-4 rounded-lg text-center font-semibold w-full max-w-xs">
                 Step 3: Manually checkout
               </div>
-              <div className="text-4xl font-bold text-[#FF6B6B]">✗</div>
+              <div className="text-4xl font-bold text-[#FF6B6B] mt-4 md:mt-0 md:ml-2">✗</div>
             </div>
           </div>
         </div>
@@ -207,6 +211,7 @@ function Infographic() {
             A single AI-powered assistant compresses this entire journey. It understands user needs, provides trusted recommendations based on real-time data, and completes the transaction instantly within the conversation.
           </p>
 
+          {/* grid-cols-1 on mobile, md:grid-cols-2 on medium and up */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 items-start">
             <div>
               <h4 className="text-2xl font-semibold text-center mb-6">The New Streamlined Journey</h4>
@@ -228,6 +233,7 @@ function Infographic() {
                 </div>
               </div>
             </div>
+            {/* Chart container needs explicit height */}
             <div>
               <h4 className="text-2xl font-semibold text-center mb-6">Customer Journey Compression</h4>
               <div className="relative w-full h-72 bg-white rounded-xl shadow-md p-4">
@@ -248,6 +254,7 @@ function Infographic() {
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 items-start">
+            {/* Chart container needs explicit height */}
             <div>
               <h4 className="text-2xl font-semibold text-center mb-6">AI Agent Capabilities</h4>
               <div className="relative w-full h-72 bg-white rounded-xl shadow-md p-4">
@@ -268,7 +275,8 @@ function Infographic() {
                   NLU & Sentiment Engine
                 </div>
                 <div className="text-3xl font-bold text-[#4ECDC4] text-center">↓</div>
-                <div className="grid grid-cols-2 gap-3">
+                {/* Stack these on mobile, grid-cols-2 on desktop */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div className="border-2 border-[#4ECDC4] bg-white p-4 rounded-lg text-center font-semibold text-sm">
                     Data APIs (Reviews, Prices, Specs)
                   </div>
@@ -295,7 +303,9 @@ function Infographic() {
             By solving the core friction problem, the conversational agent delivers massive value to both customers (time, confidence) and businesses (conversion, loyalty).
           </p>
 
+          {/* grid-cols-1 on mobile, md:grid-cols-2 on medium and up */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+            {/* Chart container needs explicit height */}
             <div>
               <h4 className="text-2xl font-semibold text-center mb-6">Conversion Rate Uplift</h4>
               <div className="relative w-full h-72 bg-white rounded-xl shadow-md p-4">
@@ -305,6 +315,7 @@ function Infographic() {
                 By eliminating friction at the point of high intent, conversational agents can dramatically increase the likelihood of a completed purchase.
               </p>
             </div>
+            {/* Chart container needs explicit height */}
             <div>
               <h4 className="text-2xl font-semibold text-center mb-6">Customer Satisfaction</h4>
               <div className="relative w-full h-72 bg-white rounded-xl shadow-md p-4">
