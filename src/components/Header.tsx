@@ -1,8 +1,10 @@
 interface HeaderProps {
   onGetStartedClick: () => void;
+  onNavigate: (page: string) => void;
+  currentPage: string;
 }
 
-function Header({ onGetStartedClick }: HeaderProps) {
+function Header({ onGetStartedClick, onNavigate, currentPage }: HeaderProps) {
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
     e.preventDefault();
     const element = document.getElementById(sectionId);
@@ -24,7 +26,7 @@ function Header({ onGetStartedClick }: HeaderProps) {
       <nav className="container mx-auto max-w-6xl px-4 sm:px-6 py-4">
         <div className="flex items-center justify-between">
           <button
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            onClick={() => onNavigate('home')}
             className="flex items-center space-x-2 sm:space-x-3 hover:opacity-80 transition-opacity duration-200"
           >
             <img src="/logo1.svg" alt="SynapseHub" className="h-10 w-10" />
@@ -32,47 +34,51 @@ function Header({ onGetStartedClick }: HeaderProps) {
             <span className="text-xl sm:text-2xl font-bold text-[#1A202C]">SynapseHub</span>
           </button>
 
-          {/* Desktop Navigation Links (Hidden on mobile) */}
-          <div className="hidden md:flex items-center space-x-8">
-            <a
-              href="#home"
-              onClick={(e) => handleNavClick(e, 'home')}
-              className="text-[#1A202C] hover:text-[#40E0D0] transition-colors duration-200 font-medium cursor-pointer"
-            >
-              Home
-            </a>
-            <a
-              href="#problem"
-              onClick={(e) => handleNavClick(e, 'problem')}
-              className="text-[#1A202C] hover:text-[#40E0D0] transition-colors duration-200 font-medium cursor-pointer"
-            >
-              About
-            </a>
-            <a
-              href="#features"
-              onClick={(e) => handleNavClick(e, 'features')}
-              className="text-[#1A202C] hover:text-[#40E0D0] transition-colors duration-200 font-medium cursor-pointer"
-            >
-              Features
-            </a>
-            <a
-              href="#testimonials"
-              onClick={(e) => handleNavClick(e, 'testimonials')}
-              className="text-[#1A202C] hover:text-[#40E0D0] transition-colors duration-200 font-medium cursor-pointer"
-            >
-              Testimonials
-            </a>
-          </div>
+          {/* Desktop Navigation Links (Hidden on mobile AND on non-home pages) */}
+          {currentPage === 'home' && (
+            <div className="hidden md:flex items-center space-x-8">
+              <a
+                href="#home"
+                onClick={(e) => handleNavClick(e, 'home')}
+                className="text-[#1A202C] hover:text-[#40E0D0] transition-colors duration-200 font-medium cursor-pointer"
+              >
+                Home
+              </a>
+              <a
+                href="#problem"
+                onClick={(e) => handleNavClick(e, 'problem')}
+                className="text-[#1A202C] hover:text-[#40E0D0] transition-colors duration-200 font-medium cursor-pointer"
+              >
+                About
+              </a>
+              <a
+                href="#features"
+                onClick={(e) => handleNavClick(e, 'features')}
+                className="text-[#1A202C] hover:text-[#40E0D0] transition-colors duration-200 font-medium cursor-pointer"
+              >
+                Features
+              </a>
+              <a
+                href="#testimonials"
+                onClick={(e) => handleNavClick(e, 'testimonials')}
+                className="text-[#1A202C] hover:text-[#40E0D0] transition-colors duration-200 font-medium cursor-pointer"
+              >
+                Testimonials
+              </a>
+            </div>
+          )}
 
           {/* Buttons - Adjust spacing and padding for mobile */}
           <div className="flex items-center space-x-2 sm:space-x-4">
-            {/* Live Demo Button - Smaller text/padding on mobile */}
-            <button
-              onClick={onLiveDemoClick}
-              className="bg-white text-[#40E0D0] px-3 py-2 sm:px-5 sm:py-2.5 rounded-full font-semibold border-2 border-[#40E0D0] shadow-sm hover:bg-[#40E0D0] hover:text-white hover:scale-105 transition-all duration-200 cursor-pointer text-sm sm:text-base"
-            >
-              Live Demo
-            </button>
+            {/* Live Demo Button (Hidden on non-home pages) */}
+            {currentPage === 'home' && (
+              <button
+                onClick={onLiveDemoClick}
+                className="bg-white text-[#40E0D0] px-3 py-2 sm:px-5 sm:py-2.5 rounded-full font-semibold border-2 border-[#40E0D0] shadow-sm hover:bg-[#40E0D0] hover:text-white hover:scale-105 transition-all duration-200 cursor-pointer text-sm sm:text-base"
+              >
+                Live Demo
+              </button>
+            )}
 
             {/* Get Started Button - Smaller text/padding on mobile */}
             <button
