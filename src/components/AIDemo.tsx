@@ -199,9 +199,7 @@ function AIDemo() {
           </div>
         </div>
 
-        <p className="text-center text-gray-500 text-sm mt-4">
-          Note: Requires VITE_GEMINI_API_KEY to be set for live API calls
-        </p>
+        
       </div>
     </section>
   );
