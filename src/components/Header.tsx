@@ -21,16 +21,18 @@ function Header({ onGetStartedClick }: HeaderProps) {
 
   return (
     <header className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm shadow-sm z-50">
-      <nav className="container mx-auto px-6 py-4">
+      <nav className="container mx-auto max-w-6xl px-4 sm:px-6 py-4">
         <div className="flex items-center justify-between">
           <button
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="flex items-center space-x-3 hover:opacity-80 transition-opacity duration-200"
+            className="flex items-center space-x-2 sm:space-x-3 hover:opacity-80 transition-opacity duration-200"
           >
             <img src="/logo1.svg" alt="SynapseHub" className="h-10 w-10" />
-            <span className="text-2xl font-bold text-[#1A202C]">SynapseHub</span>
+            {/* Make text smaller on small screens */}
+            <span className="text-xl sm:text-2xl font-bold text-[#1A202C]">SynapseHub</span>
           </button>
 
+          {/* Desktop Navigation Links (Hidden on mobile) */}
           <div className="hidden md:flex items-center space-x-8">
             <a
               href="#home"
@@ -62,19 +64,20 @@ function Header({ onGetStartedClick }: HeaderProps) {
             </a>
           </div>
 
-          <div className="flex items-center space-x-4">
-            {/* Live Demo Button */}
+          {/* Buttons - Adjust spacing and padding for mobile */}
+          <div className="flex items-center space-x-2 sm:space-x-4">
+            {/* Live Demo Button - Smaller text/padding on mobile */}
             <button
               onClick={onLiveDemoClick}
-              className="bg-white text-[#40E0D0] px-5 py-2.5 rounded-full font-semibold border-2 border-[#40E0D0] shadow-sm hover:bg-[#40E0D0] hover:text-white hover:scale-105 transition-all duration-200 cursor-pointer"
+              className="bg-white text-[#40E0D0] px-3 py-2 sm:px-5 sm:py-2.5 rounded-full font-semibold border-2 border-[#40E0D0] shadow-sm hover:bg-[#40E0D0] hover:text-white hover:scale-105 transition-all duration-200 cursor-pointer text-sm sm:text-base"
             >
               Live Demo
             </button>
 
-            {/* Get Started Button */}
+            {/* Get Started Button - Smaller text/padding on mobile */}
             <button
               onClick={onGetStartedClick}
-              className="bg-[#40E0D0] text-white px-6 py-2.5 rounded-full font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all duration-200 cursor-pointer"
+              className="bg-[#40E0D0] text-white px-3 py-2 sm:px-6 sm:py-2.5 rounded-full font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all duration-200 cursor-pointer text-sm sm:text-base"
             >
               Get Started
             </button>
