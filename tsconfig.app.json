@@ -18,7 +18,14 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    /* === ADDED THESE LINES === */
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+    /* === END OF ADDED LINES === */
   },
   "include": ["src"]
 }
