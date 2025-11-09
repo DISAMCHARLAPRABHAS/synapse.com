@@ -147,7 +147,7 @@ Follow these strict output and style rules:
   };
 
   return (
-    <section className="py-20 px-6 bg-white">
+    <section id="ai-demo" className="py-20 px-6 bg-white"> {/* <-- ID ADDED HERE */}
       <div className="container mx-auto max-w-4xl">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold text-[#1A202C] mb-4">
