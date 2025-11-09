@@ -5,6 +5,9 @@ import Solution from './components/Solution';
 import Features from './components/Features';
 import HowItWorks from './components/HowItWorks';
 import DetailedHowItWorks from './components/DetailedHowItWorks';
+import Testimonials from './components/Testimonials';
+import Infographic from './components/Infographic';
+import AIDemo from './components/AIDemo';
 import CTA from './components/CTA';
 import Footer from './components/Footer';
 
@@ -18,7 +21,9 @@ function App() {
       <Features />
       <HowItWorks />
       <DetailedHowItWorks />
-  
+      <Testimonials />
+      <Infographic />
+      <AIDemo />
       <CTA />
       <Footer />
     </div>
