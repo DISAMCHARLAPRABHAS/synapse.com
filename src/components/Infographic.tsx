@@ -141,7 +141,7 @@ function Infographic() {
   }, []);
 
   return (
-    <section className="py-20 px-6 bg-gradient-to-b from-white to-[#F7FAFC]">
+    <section id="infographic" className="py-20 px-6 bg-gradient-to-b from-white to-[#F7FAFC]"> {/* <-- ID ADDED HERE */}
       <div className="container mx-auto max-w-6xl">
         {/* Header */}
         <div className="text-center mb-16">
