@@ -14,42 +14,44 @@ interface Job {
 
 const openPositions: Job[] = [
   { 
-    title: 'General Internship', 
+    title: 'SynapseHub Internship Program', 
     location: 'Remote',
     type: 'Internship',
-    description: 'We are looking for motivated individuals to join our team as interns. This is a general internship program where you will get to work on various aspects of our product, from engineering to marketing.',
+    description: 'Join the SynapseHub Internship Program and be part of building India’s next-generation AI-powered booking and commerce platform. You’ll work across product development, marketing, research, and design — gaining hands-on experience in a fast-paced startup environment.',
     responsibilities: [
-      'Assist teams with day-to-day tasks.',
-      'Participate in team meetings and brainstorming sessions.',
-      'Conduct research and gather data to support product development.',
-      'Learn from mentors and apply new skills to real-world projects.'
+      'Contribute to real product modules in areas like AI development, frontend, backend, or growth marketing.',
+      'Collaborate with mentors and cross-functional teams to bring innovative ideas to life.',
+      'Conduct research to improve user experience and product performance.',
+      'Assist in content creation, branding, and market outreach campaigns.',
+      'Participate in brainstorming sessions and product roadmap discussions.'
     ],
     qualifications: [
-      'Currently enrolled in a college or university, or a recent graduate.',
-      'Strong desire to learn and a passion for technology.',
-      'Good communication and teamwork skills.',
-      'Self-motivated and able to work independently.'
+      'Students or recent graduates passionate about startups, AI, or digital products.',
+      'Strong communication, problem-solving, and teamwork skills.',
+      'Self-driven and eager to learn new technologies or business processes.',
+      'Ability to manage tasks independently and meet deadlines in a remote setup.'
     ]
   },
   { 
-    title: 'Unpaid Internship (Learning Focus)', 
+    title: 'Unpaid Learning Internship (AI & Startup Experience)', 
     location: 'Remote',
     type: 'Unpaid Internship',
-    description: 'This is an unpaid, remote-first learning internship for individuals who want to gain experience in the tech industry. You will be paired with a mentor and work on a project tailored to your learning goals.',
+    description: 'This internship is designed for learners who want to gain exposure to AI technologies, product strategy, and startup operations. It’s a mentorship-based learning experience at SynapseHub, where you’ll work on guided projects to build real-world skills and portfolio-worthy work.',
     responsibilities: [
-      'Complete a dedicated project under the guidance of a mentor.',
-      'Attend learning sessions and workshops.',
-      'Contribute to open-source components of our platform.',
-      'Shadow team members to understand different roles in the company.'
+      'Work on guided AI or web development projects with mentorship from the SynapseHub team.',
+      'Participate in knowledge sessions about AI, UI/UX, product management, and entrepreneurship.',
+      'Collaborate on open-source or internal components of the SynapseHub ecosystem.',
+      'Shadow mentors to understand startup workflows, from ideation to product deployment.'
     ],
     qualifications: [
-      'Must be able to receive academic credit or be seeking experience.',
-      'A clear learning objective and a passion for technology.',
-      'Strong commitment and availability to learn.',
-      'This is a learning position and is unpaid, as permitted by law.'
+      'Ideal for students, early professionals, or self-learners seeking hands-on experience.',
+      'A genuine interest in technology, innovation, and the startup ecosystem.',
+      'Willingness to dedicate time to learn and complete assigned learning modules.',
+      'This position is unpaid and focused on upskilling, networking, and mentorship.'
     ]
   }
 ];
+
 
 // --- Application Form Component ---
 interface ApplicationFormProps {
