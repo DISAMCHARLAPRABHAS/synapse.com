@@ -75,4 +75,3 @@ function Header({ onGetStartedClick }: HeaderProps) {
 }
 
 export default Header;
-add live demo button and connetc it ai demo
