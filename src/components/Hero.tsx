@@ -1,4 +1,15 @@
-function Hero() {
+interface HeroProps {
+  onGetStartedClick: () => void;
+}
+
+function Hero({ onGetStartedClick }: HeroProps) {
+  const handleLearnMoreClick = () => {
+    const element = document.getElementById('infographic');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <section id="home" className="pt-32 pb-20 px-6 bg-gradient-to-b from-[#F7FAFC] to-white">
       <div className="container mx-auto max-w-6xl">
@@ -21,10 +32,16 @@ function Hero() {
 
           {/* Responsive Flex Direction: col on mobile, sm:row on small screens and up */}
           <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-            <button className="bg-[#40E0D0] text-white px-8 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200 w-full sm:w-auto">
+            <button
+              onClick={onGetStartedClick} // <-- ADDED THIS ONCLICK
+              className="bg-[#40E0D0] text-white px-8 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200 w-full sm:w-auto"
+            >
               Get Started
             </button>
-            <button className="bg-[#FF6B6B] text-white px-8 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200 w-full sm:w-auto">
+            <button
+              onClick={handleLearnMoreClick} // <-- ADDED THIS ONCLICK
+              className="bg-[#FF6B6B] text-white px-8 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200 w-full sm:w-auto"
+            >
               Learn More
             </button>
           </div>
