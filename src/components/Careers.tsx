@@ -15,7 +15,7 @@ interface Job {
 const openPositions: Job[] = [
   { 
     title: 'General Internship', 
-    location: 'Remote / Bangalore',
+    location: 'Remote',
     type: 'Internship',
     description: 'We are looking for motivated individuals to join our team as interns. This is a general internship program where you will get to work on various aspects of our product, from engineering to marketing.',
     responsibilities: [
