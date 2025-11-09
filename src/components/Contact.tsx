@@ -1,19 +1,39 @@
 import { useState } from 'react';
-import { Loader2, Mail, Phone, MapPin } from 'lucide-react';
+import { Loader2, Mail, Phone, MapPin, CheckCircle, AlertTriangle } from 'lucide-react';
+import { supabase } from '../supabaseClient'; // <-- Import Supabase
 
 function Contact() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success'>('idle');
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (status === 'loading') return;
+
     setStatus('loading');
-    // Simulate API call
-    setTimeout(() => {
+    setError('');
+
+    try {
+      const { error: supabaseError } = await supabase
+        .from('contact_submissions')
+        .insert({ name, email, message });
+
+      if (supabaseError) {
+        throw supabaseError;
+      }
+
       setStatus('success');
-    }, 1500);
+      setName('');
+      setEmail('');
+      setMessage('');
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred.';
+      setError(`Failed to submit: ${errorMessage}`);
+      setStatus('error');
+    }
   };
 
   return (
@@ -30,7 +50,8 @@ function Contact() {
           {/* Contact Form */}
           <div className="bg-white p-8 rounded-2xl shadow-md border border-gray-100">
             {status === 'success' ? (
-              <div className="flex flex-col items-center justify-center h-full">
+              <div className="flex flex-col items-center justify-center h-full text-center">
+                <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">Thank You!</h3>
                 <p className="text-gray-600">Your message has been sent successfully.</p>
               </div>
@@ -78,6 +99,14 @@ function Contact() {
                     required
                   ></textarea>
                 </div>
+
+                {status === 'error' && (
+                  <div className="flex items-center space-x-2 text-red-600">
+                    <AlertTriangle className="w-5 h-5" />
+                    <span className="text-sm">{error}</span>
+                  </div>
+                )}
+
                 <button
                   type="submit"
                   disabled={status === 'loading'}
