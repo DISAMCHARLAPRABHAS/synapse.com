@@ -12,6 +12,7 @@ import AIDemo from './components/AIDemo';
 import CTA from './components/CTA';
 import Footer from './components/Footer';
 import WaitlistModal from './components/WaitlistModal';
+import Chatbot from './components/Chatbot'; // <-- New Import
 
 function App() {
   const [isWaitlistOpen, setIsWaitlistOpen] = useState(false);
@@ -31,6 +32,7 @@ function App() {
       <CTA />
       <Footer />
       <WaitlistModal isOpen={isWaitlistOpen} onClose={() => setIsWaitlistOpen(false)} />
+      <Chatbot /> {/* <-- New Component Added */}
     </div>
   );
 }
