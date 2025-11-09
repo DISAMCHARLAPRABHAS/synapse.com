@@ -72,8 +72,8 @@ const openPositions: Job[] = [
 // --- Application Form Component ---
 interface ApplicationFormProps {
   jobTitle: string;
-  onClose: ();
-  onSuccess: ();
+  onClose: () => void;    // <-- FIX HERE
+  onSuccess: () => void;  // <-- FIX HERE (This was line 76)
 }
 
 function ApplicationForm({ jobTitle, onClose, onSuccess }: ApplicationFormProps) {
@@ -183,8 +183,8 @@ function ApplicationForm({ jobTitle, onClose, onSuccess }: ApplicationFormProps)
 // --- Job Description Modal Component ---
 interface JobModalProps {
   job: Job;
-  onClose: ();
-  onApply: ();
+  onClose: () => void;  // <-- FIX HERE
+  onApply: () => void;  // <-- FIX HERE
 }
 
 function JobModal({ job, onClose, onApply }: JobModalProps) {
