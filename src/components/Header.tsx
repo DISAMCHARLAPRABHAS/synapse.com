@@ -1,9 +1,8 @@
 interface HeaderProps {
   onGetStartedClick: () => void;
-  onLiveDemoClick: () => void; // new prop for Live Demo
 }
 
-function Header({ onGetStartedClick, onLiveDemoClick }: HeaderProps) {
+function Header({ onGetStartedClick }: HeaderProps) {
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
     e.preventDefault();
     const element = document.getElementById(sectionId);
@@ -54,7 +53,6 @@ function Header({ onGetStartedClick, onLiveDemoClick }: HeaderProps) {
               Testimonials
             </a>
           </div>
-
           <div className="flex items-center space-x-4">
             {/* Live Demo Button */}
             <button
@@ -64,14 +62,12 @@ function Header({ onGetStartedClick, onLiveDemoClick }: HeaderProps) {
               Live Demo
             </button>
 
-            {/* Get Started Button */}
-            <button
-              onClick={onGetStartedClick}
-              className="bg-[#40E0D0] text-white px-6 py-2.5 rounded-full font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all duration-200 cursor-pointer"
-            >
-              Get Started
-            </button>
-          </div>
+          <button
+            onClick={onGetStartedClick}
+            className="bg-[#40E0D0] text-white px-6 py-2.5 rounded-full font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all duration-200 cursor-pointer"
+          >
+            Get Started
+          </button>
         </div>
       </nav>
     </header>
@@ -79,3 +75,4 @@ function Header({ onGetStartedClick, onLiveDemoClick }: HeaderProps) {
 }
 
 export default Header;
+add live demo button and connetc it ai demo
